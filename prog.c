@@ -1,21 +1,36 @@
 #include <stdio.h>
+#include <string.h>
 
 #define MAX_STRINGS 100
 #define MAX_LENGTH 256
 
-int main() {
-    FILE *file = fopen("strings.txt", "r");
-    char strings[MAX_STRINGS][MAX_LENGTH];
+int loadArray(const char *filename, char arr[][MAX_LENGTH], int maxStrings) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        printf("Error opening file: %s\n", filename);
+        return 0;
+    }
+    
     int count = 0;
-
-    while (fgets(strings[count], MAX_LENGTH, file) && count < MAX_STRINGS) {
-        if (strings[count][0] && strings[count][strlen(strings[count])-1] == '\n')
-            strings[count][strlen(strings[count])-1] = '\0';
+    while (fgets(arr[count], MAX_LENGTH, file) && count < maxStrings) {
+        if (arr[count][0] && arr[count][strlen(arr[count])-1] == '\n') {
+            arr[count][strlen(arr[count])-1] = '\0';
+        }
         count++;
     }
     fclose(file);
+    return count;
+}
 
-    for (int i = 0; i < count; i++)
-        printf("%s\n", strings[i]);
+void showArray(char arr[][MAX_LENGTH], int count) {
+    for (int i = 0; i < count; i++) {
+        printf("%s\n", arr[i]);
+    }
+}
+
+int main() {
+    char strings[MAX_STRINGS][MAX_LENGTH];
+    int count = loadArray("strings.txt", strings, MAX_STRINGS);
+    showArray(strings, count);
     return 0;
 }
