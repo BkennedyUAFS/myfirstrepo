@@ -28,9 +28,9 @@ void showArray(char arr[][MAX_LENGTH], int count) {
     }
 }
 
-int main() {
+int main(int arg1, char *arg2[]) {
     char strings[MAX_STRINGS][MAX_LENGTH];
-    int count = loadArray("strings.txt", strings, MAX_STRINGS);
+    int count = loadArray(arg2[1], strings, MAX_STRINGS);
     showArray(strings, count);
     return 0;
 }
